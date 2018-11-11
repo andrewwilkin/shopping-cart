@@ -73,10 +73,10 @@ namespace ShoppingCart.Api.Controllers
         /// <response code="404">Cart or catalog item not found</response>
         [ProducesResponseType(200, Type = typeof(CartResponseDto))]
         [ProducesResponseType(404)]
-        [HttpPost("{cartId:guid}/item/{itemId:guid}/add/{quantity:decimal?}")]
+        [HttpPost("{cartId:guid}/item/{itemId:guid}/add/{quantity:int?}")]
         public async Task<IActionResult> IncreaseShoppingCartItemAsync(Guid cartId,
             [FromRoute] Guid itemId,
-            [FromRoute] decimal quantity = 1)
+            [FromRoute] int quantity = 1)
         {
             var cart = await _cartRepository.IncreaseShoppingCartItemAsync(cartId, itemId, quantity);
 
@@ -108,10 +108,10 @@ namespace ShoppingCart.Api.Controllers
         /// <response code="404">Cart or catalog item not found</response>
         [ProducesResponseType(200, Type = typeof(CartResponseDto))]
         [ProducesResponseType(404)]
-        [HttpPost("{cartId:guid}/item/{itemId:guid}/remove/{quantity:decimal?}")]
+        [HttpPost("{cartId:guid}/item/{itemId:guid}/remove/{quantity:int?}")]
         public async Task<IActionResult> DecreaseShoppingCartItemAsync(Guid cartId,
             [FromRoute] Guid itemId,
-            [FromRoute] decimal quantity = 1)
+            [FromRoute] int quantity = 1)
         {
             var cart = await _cartRepository.DecreaseShoppingCartItemAsync(cartId, itemId, quantity);
 

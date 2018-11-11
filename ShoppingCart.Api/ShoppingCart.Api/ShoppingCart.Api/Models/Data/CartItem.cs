@@ -14,7 +14,7 @@ namespace ShoppingCart.Api.Models.Data
         public Guid CatalogItemId { get; set; }
         public CatalogItem CatalogItem { get; set; }
 
-        public decimal Quantity { get; set; }
+        public int Quantity { get; set; }
 
         [NotMapped]
         public decimal UnitPrice { get; set; }

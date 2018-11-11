@@ -90,7 +90,7 @@ namespace ShoppingCart.Api.Repositories.Implementation
         }
 
 
-        public async Task<Cart> IncreaseShoppingCartItemAsync(Guid cartId, Guid itemId, decimal quantity)
+        public async Task<Cart> IncreaseShoppingCartItemAsync(Guid cartId, Guid itemId, int quantity)
         {
             var cart = await FindByIdAsync(cartId);
             if (cart == null)
@@ -119,7 +119,7 @@ namespace ShoppingCart.Api.Repositories.Implementation
         }
 
 
-        public async Task<Cart> DecreaseShoppingCartItemAsync(Guid cartId, Guid itemId, decimal quantity)
+        public async Task<Cart> DecreaseShoppingCartItemAsync(Guid cartId, Guid itemId, int quantity)
         {
             var cart = await FindByIdAsync(cartId);
             if (cart == null)

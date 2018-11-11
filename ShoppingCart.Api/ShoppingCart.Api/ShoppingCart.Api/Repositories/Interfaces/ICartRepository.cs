@@ -13,7 +13,7 @@ namespace ShoppingCart.Api.Repositories.Interfaces
         Task<Cart> UpdateShoppingCartAsync(Guid cartId, CartContentsRequestDto cartContentsRequest);
         Task RemoveShoppingCartAsync(Guid cartId);
         Task<Cart> RemoveShoppingCartItemAsync(Guid cartId, Guid itemId);
-        Task<Cart> IncreaseShoppingCartItemAsync(Guid cartId, Guid itemId, decimal quantity);
-        Task<Cart> DecreaseShoppingCartItemAsync(Guid cartId, Guid itemId, decimal quantity);
+        Task<Cart> IncreaseShoppingCartItemAsync(Guid cartId, Guid itemId, int quantity);
+        Task<Cart> DecreaseShoppingCartItemAsync(Guid cartId, Guid itemId, int quantity);
     }
 }

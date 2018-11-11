@@ -12,6 +12,6 @@ namespace ShoppingCart.Api.Models.Dto.Cart
         public Guid Id { get; set; }
 
         [Required]
-        public decimal Quantity { get; set; }
+        public int Quantity { get; set; }
     }
 }
