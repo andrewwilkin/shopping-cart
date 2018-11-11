@@ -12,17 +12,17 @@ using ShoppingCart.Api.Repositories.Interfaces;
 
 namespace ShoppingCart.Api.Controllers
 {
-    [Route("api/catalog")]
+    [Route("api/products")]
     [Produces("application/json")]
     [ApiController]
-    public class CatalogController : ControllerBase
+    public class ProductsController : ControllerBase
     {
-        private readonly ICatalogRepository _catalogRepository;
+        private readonly ICatalogRepository _productsRepository;
         private readonly IMapper _mapper;
 
-        public CatalogController(ICatalogRepository catalogRepository, IMapper mapper)
+        public ProductsController(ICatalogRepository productsRepository, IMapper mapper)
         {
-            _catalogRepository = catalogRepository;
+            _productsRepository = productsRepository;
             _mapper = mapper;
         }
 
@@ -37,12 +37,12 @@ namespace ShoppingCart.Api.Controllers
         /// </remarks>
         /// <returns>Catalog List From The Repository</returns>
         /// <response code="200">Returns the Catalog List from the repository</response>
-        [ProducesResponseType(200, Type = typeof(CatalogItemListResponseDto))]
+        [ProducesResponseType(200, Type = typeof(ProductsResponseDto))]
         [HttpGet]
         public async Task<IActionResult> GetAllProductsAsync()
         {
-            var items = await _catalogRepository.FetchAllAsync();
-            var dto = new CatalogItemListResponseDto(_mapper.Map<List<CatalogItemResponseDto>>(items));
+            var items = await _productsRepository.FetchAllAsync();
+            var dto = new ProductsResponseDto(_mapper.Map<List<ProductResponseDto>>(items));
             return Ok(dto);
         }
 
@@ -60,16 +60,16 @@ namespace ShoppingCart.Api.Controllers
         /// <response code="200">Returns the Catalog Item from the repository</response>
         /// <response code="404">If the catalog item cannot be found</response>
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(200, Type = typeof(CatalogItemResponseDto))]
+        [ProducesResponseType(200, Type = typeof(ProductResponseDto))]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetProductByIdAsync(Guid id)
         {
-            var item = await _catalogRepository.FindByIdAsync(id);
+            var item = await _productsRepository.FindByIdAsync(id);
 
             if (item == null)
                 return NotFound();
             
-            var dto = new CatalogItemResponseDto(item.Id, item.Name);
+            var dto = new ProductResponseDto(item.Id, item.Name);
             return Ok(dto);
         }
     }

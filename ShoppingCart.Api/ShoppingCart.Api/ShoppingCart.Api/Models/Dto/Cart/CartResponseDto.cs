@@ -9,8 +9,8 @@ namespace ShoppingCart.Api.Models.Dto.Cart
     {
         public Guid Id { get; set; }
 
-        public decimal Total => CartItems.Sum(x => x.SubTotal);
+        public decimal Total => Products.Sum(x => x.SubTotal);
 
-        public List<CartItemResponseDto> CartItems { get; set; } = new List<CartItemResponseDto>();
+        public List<CartItemResponseDto> Products { get; set; } = new List<CartItemResponseDto>();
     }
 }

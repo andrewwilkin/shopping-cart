@@ -12,7 +12,7 @@ namespace ShoppingCart.Api.Models.Data
         public Cart Cart { get; set; }
 
         public Guid CatalogItemId { get; set; }
-        public CatalogItem CatalogItem { get; set; }
+        public Product Product { get; set; }
 
         public int Quantity { get; set; }
 

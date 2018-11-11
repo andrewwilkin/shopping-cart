@@ -22,14 +22,14 @@ namespace ShoppingCart.Api.Contexts
             builder.Entity<CartItem>(b =>
             {
                 b.HasKey(k => new {k.CartId, k.CatalogItemId});
-                b.HasOne(p => p.CatalogItem);
+                b.HasOne(p => p.Product);
                 b.HasOne(p => p.Cart)
                     .WithMany(m => m.CartItems)
                     .HasForeignKey(k => k.CartId);
             });
         }
 
-        public DbSet<CatalogItem> CatalogItems { get; set; }
+        public DbSet<Product> CatalogItems { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
     }

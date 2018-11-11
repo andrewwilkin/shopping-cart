@@ -7,6 +7,6 @@ namespace ShoppingCart.Api.Models.Dto.Cart
 {
     public class CartContentsRequestDto
     {
-        public List<CartItemRequestDto> CartContents { get; set; } = new List<CartItemRequestDto>();
+        public List<CartItemRequestDto> Products { get; set; } = new List<CartItemRequestDto>();
     }
 }

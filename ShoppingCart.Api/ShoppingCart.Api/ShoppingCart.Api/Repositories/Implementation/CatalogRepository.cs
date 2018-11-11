@@ -10,7 +10,7 @@ using ShoppingCart.Api.Repositories.Interfaces;
 
 namespace ShoppingCart.Api.Repositories.Implementation
 {
-    public class CatalogRepository : BaseRepository<CatalogItem>, ICatalogRepository
+    public class CatalogRepository : BaseRepository<Product>, ICatalogRepository
     {
         private readonly ApiDbContext _dbContext;
         

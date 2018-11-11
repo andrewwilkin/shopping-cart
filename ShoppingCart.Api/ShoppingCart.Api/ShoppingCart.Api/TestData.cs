@@ -30,7 +30,7 @@ namespace ShoppingCart.Api
         {
             if (!dbContext.CatalogItems.Any())
             {
-                dbContext.Add(new CatalogItem
+                dbContext.Add(new Product
                 {
                     Id = Guid.Parse("13a9cd0b-dbfc-47d0-ab25-43e6d2aac375"),
                     Name = "Apple",
@@ -38,21 +38,21 @@ namespace ShoppingCart.Api
                     UnitPrice = new decimal(0.34)
                 });
 
-                dbContext.Add(new CatalogItem
+                dbContext.Add(new Product
                 {
                     Id = Guid.Parse("117d7811-2d5d-4192-8cd3-bbd5d353981f"),
                     Name = "Banana",
                     NamePlural = "Bananas",
                     UnitPrice = new decimal(0.34)
                 });
-                dbContext.Add(new CatalogItem
+                dbContext.Add(new Product
                 {
                     Id = Guid.Parse("2ca94fcf-22e3-49bb-9c7c-71a0130a9290"),
                     Name = "Orange",
                     NamePlural = "Oranges",
                     UnitPrice = new decimal(0.34)
                 });
-                dbContext.Add(new CatalogItem
+                dbContext.Add(new Product
                 {
                     Id = Guid.Parse("76dec6a2-73d6-42ec-918c-d996eb02cba2"),
                     Name = "Cherry",

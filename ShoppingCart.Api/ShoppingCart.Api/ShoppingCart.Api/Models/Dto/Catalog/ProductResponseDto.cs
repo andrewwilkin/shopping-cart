@@ -3,12 +3,12 @@ using ShoppingCart.Api.Models.Dto.Common;
 
 namespace ShoppingCart.Api.Models.Dto.Catalog
 {
-    public sealed class CatalogItemResponseDto : Resource
+    public sealed class ProductResponseDto : Resource
     {
         public Guid Id { get; }
         public string Name { get; }
 
-        public CatalogItemResponseDto(Guid id, 
+        public ProductResponseDto(Guid id, 
             string name)
         {
             Id = id;

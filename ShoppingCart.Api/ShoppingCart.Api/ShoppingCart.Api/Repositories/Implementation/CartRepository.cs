@@ -30,9 +30,9 @@ namespace ShoppingCart.Api.Repositories.Implementation
         {
             var cart = new Cart();
 
-            if (cartContentsRequest.CartContents.Any())
+            if (cartContentsRequest.Products.Any())
             {
-                cart.CartItems = _mapper.Map<List<CartItem>>(cartContentsRequest.CartContents).ToList();
+                cart.CartItems = _mapper.Map<List<CartItem>>(cartContentsRequest.Products).ToList();
             }
             _dbContext.Add(cart);
 
@@ -47,7 +47,7 @@ namespace ShoppingCart.Api.Repositories.Implementation
             if (cart == null)
                 return null;
 
-            cart.CartItems = _mapper.Map<List<CartItem>>(cartContentsRequest.CartContents).ToList();
+            cart.CartItems = _mapper.Map<List<CartItem>>(cartContentsRequest.Products).ToList();
             cart.UpdatedAt = DateTimeOffset.UtcNow;
 
             _dbContext.Update(cart);

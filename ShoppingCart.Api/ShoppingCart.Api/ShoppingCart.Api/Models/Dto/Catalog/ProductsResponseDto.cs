@@ -4,11 +4,11 @@ using ShoppingCart.Api.Models.Dto.Common;
 
 namespace ShoppingCart.Api.Models.Dto.Catalog
 {
-    public class CatalogItemListResponseDto : Resource
+    public class ProductsResponseDto : Resource
     {
-        public List<CatalogItemResponseDto> CatalogItems { get; }
+        public List<ProductResponseDto> CatalogItems { get; }
 
-        public CatalogItemListResponseDto(IEnumerable<CatalogItemResponseDto> catalogItems)
+        public ProductsResponseDto(IEnumerable<ProductResponseDto> catalogItems)
         {
             CatalogItems = catalogItems.ToList();
         }

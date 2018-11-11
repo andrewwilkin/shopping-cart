@@ -14,15 +14,15 @@ namespace ShoppingCart.Api.Controllers
     /// Add some more user friendly ways of manipulating the contents of a cart
     /// </summary>
     
-    [Route("api/cart")]
+    [Route("api/carts")]
     [Produces("application/json")]
     [ApiController]
-    public class CartItemsController : ControllerBase
+    public class CartContentsController : ControllerBase
     {
         private readonly ICartRepository _cartRepository;
         private readonly IMapper _mapper;
 
-        public CartItemsController(ICartRepository cartRepository, IMapper mapper)
+        public CartContentsController(ICartRepository cartRepository, IMapper mapper)
         {
             _cartRepository = cartRepository;
             _mapper = mapper;

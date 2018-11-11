@@ -14,7 +14,7 @@ namespace ShoppingCart.Api.Infrastructure.Mappers
     {
         public CatalogMaps()
         {
-            CreateMap<CatalogItem, CatalogItemResponseDto>();
+            CreateMap<Product, ProductResponseDto>();
         }
     }
 }

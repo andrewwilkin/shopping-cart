@@ -7,7 +7,7 @@ using ShoppingCart.Api.Models.Interfaces;
 
 namespace ShoppingCart.Api.Repositories.Interfaces
 {
-    public interface ICatalogRepository : IBaseRepository<CatalogItem>
+    public interface ICatalogRepository : IBaseRepository<Product>
     {
     }
 }
