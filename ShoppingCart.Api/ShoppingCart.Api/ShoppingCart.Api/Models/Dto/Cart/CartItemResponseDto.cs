@@ -11,6 +11,6 @@ namespace ShoppingCart.Api.Models.Dto.Cart
         public string Name { get; set; }
         public decimal Quantity { get; set; }
         public decimal UnitPrice { get; set; }
-        public decimal LinePrice => Quantity * UnitPrice;
+        public decimal SubTotal => Quantity * UnitPrice;
     }
 }
