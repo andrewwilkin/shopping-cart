@@ -22,9 +22,10 @@ namespace ShoppingCart.Api.Controllers
         private readonly ICartRepository _cartRepository;
         private readonly IMapper _mapper;
 
-        public CartItemsController(ICartRepository cartRepository)
+        public CartItemsController(ICartRepository cartRepository, IMapper mapper)
         {
             _cartRepository = cartRepository;
+            _mapper = mapper;
         }
 
         /// <summary>

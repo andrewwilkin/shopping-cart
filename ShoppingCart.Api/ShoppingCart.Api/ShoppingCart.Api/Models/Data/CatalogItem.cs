@@ -6,7 +6,7 @@ using ShoppingCart.Api.Models.Interfaces;
 
 namespace ShoppingCart.Api.Models.Data
 {
-    public sealed class CatalogItem : Entity, ICatalogItem
+    public sealed class CatalogItem : Entity
     {
         public string Name { get; set; }
         public string NamePlural { get; set; }
