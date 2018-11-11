@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ShoppingCart.Api.Models.Data;
-using ShoppingCart.Api.Models.Dto.Cart;
+using ShoppingCart.Api.Models.Dto.Carts;
 
 namespace ShoppingCart.Api.Repositories.Interfaces
 {

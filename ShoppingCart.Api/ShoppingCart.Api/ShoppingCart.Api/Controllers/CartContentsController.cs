@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Api.Models.Data;
-using ShoppingCart.Api.Models.Dto.Cart;
+using ShoppingCart.Api.Models.Dto.Carts;
 using ShoppingCart.Api.Repositories.Interfaces;
 
 namespace ShoppingCart.Api.Controllers
@@ -43,11 +43,11 @@ namespace ShoppingCart.Api.Controllers
         /// <response code="404">Cart or catalog item not found</response>
         [ProducesResponseType(200, Type = typeof(CartResponseDto))]
         [ProducesResponseType(404)]
-        [HttpDelete("{cartId:guid}/item/{itemId:guid}")]
+        [HttpDelete("{cartId:guid}/products/{productId:guid}")]
         public async Task<IActionResult> RemoveShoppingCartItemAsync(Guid cartId,
-            [FromRoute] Guid itemId)
+            [FromRoute] Guid productId)
         {
-            var cart = await _cartRepository.RemoveShoppingCartItemAsync(cartId, itemId);
+            var cart = await _cartRepository.RemoveShoppingCartItemAsync(cartId, productId);
             if (cart == null)
                 return NotFound();
 
@@ -74,12 +74,12 @@ namespace ShoppingCart.Api.Controllers
         /// <response code="404">Cart or catalog item not found</response>
         [ProducesResponseType(200, Type = typeof(CartResponseDto))]
         [ProducesResponseType(404)]
-        [HttpPost("{cartId:guid}/item/{itemId:guid}/add/{quantity:int?}")]
+        [HttpPost("{cartId:guid}/products/{productId:guid}/add/{quantity:int?}")]
         public async Task<IActionResult> IncreaseShoppingCartItemAsync(Guid cartId,
-            [FromRoute] Guid itemId,
+            [FromRoute] Guid productId,
             [FromRoute] int quantity = 1)
         {
-            var cart = await _cartRepository.IncreaseShoppingCartItemAsync(cartId, itemId, quantity);
+            var cart = await _cartRepository.IncreaseShoppingCartItemAsync(cartId, productId, quantity);
 
             if (cart == null)
                 return NotFound();
@@ -109,12 +109,12 @@ namespace ShoppingCart.Api.Controllers
         /// <response code="404">Cart or catalog item not found</response>
         [ProducesResponseType(200, Type = typeof(CartResponseDto))]
         [ProducesResponseType(404)]
-        [HttpPost("{cartId:guid}/item/{itemId:guid}/remove/{quantity:int?}")]
+        [HttpPost("{cartId:guid}/products/{productId:guid}/remove/{quantity:int?}")]
         public async Task<IActionResult> DecreaseShoppingCartItemAsync(Guid cartId,
-            [FromRoute] Guid itemId,
+            [FromRoute] Guid productId,
             [FromRoute] int quantity = 1)
         {
-            var cart = await _cartRepository.DecreaseShoppingCartItemAsync(cartId, itemId, quantity);
+            var cart = await _cartRepository.DecreaseShoppingCartItemAsync(cartId, productId, quantity);
 
             if (cart == null)
                 return NotFound();

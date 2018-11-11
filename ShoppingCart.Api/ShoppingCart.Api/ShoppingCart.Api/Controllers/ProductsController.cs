@@ -6,7 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Api.Models.Data;
 using ShoppingCart.Api.Models.Dto;
-using ShoppingCart.Api.Models.Dto.Catalog;
+using ShoppingCart.Api.Models.Dto.Products;
 using ShoppingCart.Api.Models.Interfaces;
 using ShoppingCart.Api.Repositories.Interfaces;
 

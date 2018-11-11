@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ShoppingCart.Api.Models.Dto.Common;
 
-namespace ShoppingCart.Api.Models.Dto.Cart
+namespace ShoppingCart.Api.Models.Dto.Carts
 {
     public class CartResponseDto : Resource
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using ShoppingCart.Api.Models.Dto.Common;
 
-namespace ShoppingCart.Api.Models.Dto.Catalog
+namespace ShoppingCart.Api.Models.Dto.Products
 {
     public sealed class ProductResponseDto : Resource
     {

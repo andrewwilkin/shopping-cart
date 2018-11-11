@@ -6,7 +6,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShoppingCart.Api.Models.Data;
 using ShoppingCart.Api.Contexts;
-using ShoppingCart.Api.Models.Dto.Cart;
+using ShoppingCart.Api.Models.Dto.Carts;
 using ShoppingCart.Api.Repositories.Interfaces;
 
 namespace ShoppingCart.Api.Repositories.Implementation
@@ -32,7 +32,7 @@ namespace ShoppingCart.Api.Repositories.Implementation
 
             if (cartContentsRequest.Products.Any())
             {
-                cart.CartItems = _mapper.Map<List<CartItem>>(cartContentsRequest.Products).ToList();
+                cart.Products = _mapper.Map<List<CartItem>>(cartContentsRequest.Products).ToList();
             }
             _dbContext.Add(cart);
 
@@ -47,7 +47,7 @@ namespace ShoppingCart.Api.Repositories.Implementation
             if (cart == null)
                 return null;
 
-            cart.CartItems = _mapper.Map<List<CartItem>>(cartContentsRequest.Products).ToList();
+            cart.Products = _mapper.Map<List<CartItem>>(cartContentsRequest.Products).ToList();
             cart.UpdatedAt = DateTimeOffset.UtcNow;
 
             _dbContext.Update(cart);
@@ -79,10 +79,10 @@ namespace ShoppingCart.Api.Repositories.Implementation
             if (catalogItem == null)
                 return null;
 
-            var itemToRemove = cart.CartItems.FirstOrDefault(x => x.CatalogItemId == itemId);
+            var itemToRemove = cart.Products.FirstOrDefault(x => x.CatalogItemId == itemId);
             if (itemToRemove != null)
             {
-                cart.CartItems.Remove(itemToRemove);
+                cart.Products.Remove(itemToRemove);
                 await _dbContext.SaveChangesAsync();
             }
 
@@ -100,14 +100,14 @@ namespace ShoppingCart.Api.Repositories.Implementation
             if (catalogItem == null)
                 return null;
 
-            if (cart.CartItems.Any(x => x.CatalogItemId == itemId))
+            if (cart.Products.Any(x => x.CatalogItemId == itemId))
             {
-                var item = cart.CartItems.First(x => x.CatalogItemId == itemId);
+                var item = cart.Products.First(x => x.CatalogItemId == itemId);
                 item.Quantity += quantity;
             }
             else
             {
-                cart.CartItems.Add(new CartItem
+                cart.Products.Add(new CartItem
                 {
                     CartId = cartId,
                     CatalogItemId = itemId,
@@ -115,6 +115,8 @@ namespace ShoppingCart.Api.Repositories.Implementation
                 });
             }
 
+            _dbContext.Attach(cart);
+            await _dbContext.SaveChangesAsync();
             return await EnrichCart(cart);
         }
 
@@ -131,15 +133,16 @@ namespace ShoppingCart.Api.Repositories.Implementation
 
             // Do not allow the quantity to go below zero
             // Arguably we should delete it but then makes it more difficult to increase from client
-            if (cart.CartItems.Any(x => x.CatalogItemId == itemId))
+            if (cart.Products.Any(x => x.CatalogItemId == itemId))
             {
-                var item = cart.CartItems.First(x => x.CatalogItemId == itemId);
+                var item = cart.Products.First(x => x.CatalogItemId == itemId);
                 item.Quantity -= (quantity > item.Quantity) ? item.Quantity : quantity;               
             }
-            
+
             // Do not throw error if the item not in the cart
             // Could equally throw a bad request but little benefit
-
+            _dbContext.Attach(cart);
+            await _dbContext.SaveChangesAsync();
             return await EnrichCart(cart);
         }
 
@@ -148,7 +151,7 @@ namespace ShoppingCart.Api.Repositories.Implementation
         {
             var cart = await _dbContext
                 .Carts
-                .Include(e => e.CartItems)
+                .Include(e => e.Products)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return await EnrichCart(cart);
@@ -162,7 +165,7 @@ namespace ShoppingCart.Api.Repositories.Implementation
             if (cart == null)
                 return null;
 
-            foreach (var item in cart.CartItems)
+            foreach (var item in cart.Products)
             {
                 var catalogItem = await _catalogRepository.FindByIdAsync(item.CatalogItemId);
                 item.UnitPrice = catalogItem.UnitPrice;

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ShoppingCart.Api.Models.Data;
 using ShoppingCart.Api.Models.Dto;
-using ShoppingCart.Api.Models.Dto.Cart;
+using ShoppingCart.Api.Models.Dto.Carts;
 
 namespace ShoppingCart.Api.Infrastructure.Mappers
 {

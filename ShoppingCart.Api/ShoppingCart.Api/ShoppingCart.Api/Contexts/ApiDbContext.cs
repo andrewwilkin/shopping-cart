@@ -24,7 +24,7 @@ namespace ShoppingCart.Api.Contexts
                 b.HasKey(k => new {k.CartId, k.CatalogItemId});
                 b.HasOne(p => p.Product);
                 b.HasOne(p => p.Cart)
-                    .WithMany(m => m.CartItems)
+                    .WithMany(m => m.Products)
                     .HasForeignKey(k => k.CartId);
             });
         }

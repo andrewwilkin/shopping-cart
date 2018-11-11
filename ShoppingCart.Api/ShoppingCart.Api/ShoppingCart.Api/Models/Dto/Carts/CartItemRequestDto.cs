@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ShoppingCart.Api.Models.Dto.Cart
+namespace ShoppingCart.Api.Models.Dto.Carts
 {
     public class CartItemRequestDto
     {

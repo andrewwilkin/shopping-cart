@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShoppingCart.Api.Contexts;
 using ShoppingCart.Api.Infrastructure.Mappers;
-using ShoppingCart.Api.Models.Dto.Cart;
+using ShoppingCart.Api.Models.Dto.Carts;
 using ShoppingCart.Api.Repositories.Implementation;
 using ShoppingCart.Api.Repositories.Interfaces;
 
@@ -22,7 +22,7 @@ namespace ShoppingCart.Api.Tests
         {
             var mappings = new MapperConfigurationExpression();
             mappings.AddProfile<CartMaps>();
-            mappings.AddProfile<CatalogMaps>();
+            mappings.AddProfile<ProductMaps>();
             Mapper.Initialize(mappings);
         }
 

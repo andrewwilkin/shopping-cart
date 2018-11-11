@@ -6,7 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Api.Models.Data;
 using ShoppingCart.Api.Models.Dto;
-using ShoppingCart.Api.Models.Dto.Cart;
+using ShoppingCart.Api.Models.Dto.Carts;
 using ShoppingCart.Api.Models.Dto.Common;
 using ShoppingCart.Api.Repositories.Interfaces;
 
@@ -34,12 +34,12 @@ namespace ShoppingCart.Api.Controllers
         /// <remarks>
         /// Sample request with no cart items:
         ///
-        ///     Post /api/cart/
+        ///     Post /api/carts/
         ///
         /// 
         /// Sample request with cart items:
         ///
-        ///     Post /api/cart/
+        ///     Post /api/carts/
         ///     {
         ///         "cartContents": [
         ///             {
@@ -60,7 +60,7 @@ namespace ShoppingCart.Api.Controllers
         {
             var cart = await _cartRepository.CreateShoppingCartAsync(cartContents);
             var result = _mapper.Map<CartResponseDto>(cart);
-            return CreatedAtRoute("GetCartByIdAsync", new { id = cart.Id }, result);
+            return CreatedAtRoute("GetCartByIdAsync", new { cartId = cart.Id }, result);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace ShoppingCart.Api.Controllers
         /// 
         /// Sample request with cart items:
         ///
-        ///     Post /api/cart/{cartId}
+        ///     Post /api/carts/{cartId}
         ///     {
         ///         "cartContents": [
         ///             {
@@ -107,7 +107,7 @@ namespace ShoppingCart.Api.Controllers
         /// 
         /// Sample request with cart items:
         ///
-        ///     GET /api/cart/{cartId}
+        ///     GET /api/carts/{cartId}
         /// 
         /// </remarks>
         /// <returns>Cart</returns>
@@ -134,7 +134,7 @@ namespace ShoppingCart.Api.Controllers
         /// 
         /// Sample request:
         ///
-        ///     DELETE /api/cart/{cartId}
+        ///     DELETE /api/carts/{cartId}
         /// 
         /// </remarks>
         /// <returns>Cart</returns>
