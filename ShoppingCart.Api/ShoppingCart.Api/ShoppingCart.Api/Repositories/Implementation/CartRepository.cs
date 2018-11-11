@@ -15,12 +15,15 @@ namespace ShoppingCart.Api.Repositories.Implementation
     {
         private readonly ApiDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ICatalogRepository _catalogRepository;
 
         public CartRepository(ApiDbContext dbContext, 
-            IMapper mapper) : base(dbContext)
+            IMapper mapper, 
+            ICatalogRepository catalogRepository) : base(dbContext)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _catalogRepository = catalogRepository;
         }
 
         public async Task<Cart> CreateShoppingCartAsync(CartContentsRequestDto cartContentsRequest)
@@ -34,7 +37,8 @@ namespace ShoppingCart.Api.Repositories.Implementation
             _dbContext.Add(cart);
 
             await _dbContext.SaveChangesAsync();
-            return cart;
+            return await EnrichCart(cart);
+            //return cart;
         }
 
         public async Task<Cart> UpdateShoppingCartAsync(Guid cartId, 
@@ -45,10 +49,13 @@ namespace ShoppingCart.Api.Repositories.Implementation
                 return null;
 
             cart.CartItems = _mapper.Map<List<CartItem>>(cartContentsRequest.CartContents).ToList();
+            cart.UpdatedAt = DateTimeOffset.UtcNow;
+
             _dbContext.Update(cart);
 
             await _dbContext.SaveChangesAsync();
-            return cart;
+            return await EnrichCart(cart);
+            //return cart;
         }
 
 
@@ -62,10 +69,32 @@ namespace ShoppingCart.Api.Repositories.Implementation
             }
         }
 
+        // Look to find a better way - perhaps wrap the cart model with the extended data?
+        private async Task<Cart> EnrichCart(Cart cart)
+        {
+            if (cart == null)
+                return null;
 
-        public override async Task<Cart> FindByIdAsync(Guid id) => await _dbContext
-               .Carts
-               .Include(e => e.CartItems)
-               .FirstOrDefaultAsync(x => x.Id == id);       
+            foreach (var item in cart.CartItems)
+            {
+                var catalogItem = await _catalogRepository.FindByIdAsync(item.CatalogItemId);
+                item.UnitPrice = catalogItem.UnitPrice;
+                item.Name = item.Quantity > 1 ? catalogItem.NamePlural : catalogItem.Name;
+            }
+
+            return cart;
+        }
+
+
+        public override async Task<Cart> FindByIdAsync(Guid id)
+        {
+            var cart = await _dbContext
+                .Carts
+                .Include(e => e.CartItems)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return await EnrichCart(cart);
+            //return cart;
+        }
     }
 }

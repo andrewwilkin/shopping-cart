@@ -16,7 +16,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ShoppingCart.Api.Contexts;
 using ShoppingCart.Api.Extensions;
-using ShoppingCart.Api.Infrastructure.Filters;
 using ShoppingCart.Api.Repositories.Implementation;
 using ShoppingCart.Api.Repositories.Interfaces;
 using Swashbuckle.AspNetCore.Swagger;
@@ -56,7 +55,6 @@ namespace ShoppingCart.Api
             services.AddAutoMapper();
             services.AddMvc(opt =>
             {
-                opt.Filters.Add(new SelfReferenceFilter());
                 opt.AllowEmptyInputInBodyModelBinding = true;
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

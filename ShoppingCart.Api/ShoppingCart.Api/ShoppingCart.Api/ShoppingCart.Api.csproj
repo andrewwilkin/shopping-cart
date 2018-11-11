@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Implementation\" />
-    <Folder Include="Services\Interfaces\" />
+    <Folder Include="Infrastructure\Filters\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

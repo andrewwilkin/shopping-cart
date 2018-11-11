@@ -12,8 +12,8 @@ namespace ShoppingCart.Api.Models.Data
 
         public Cart()
         {
-            Id = Guid.NewGuid();
             CreatedAt = DateTimeOffset.UtcNow;
+            UpdatedAt = DateTimeOffset.UtcNow;
         }
 
         
