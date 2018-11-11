@@ -71,6 +71,8 @@ namespace ShoppingCart.Api.Controllers
         /// <returns>Cart</returns>
         /// <response code="200">Returns the updated cart</response>
         /// <response code="404">Cart or catalog item not found</response>
+        [ProducesResponseType(200, Type = typeof(CartResponseDto))]
+        [ProducesResponseType(404)]
         [HttpPost("{cartId:guid}/item/{itemId:guid}/add/{quantity:decimal?}")]
         public async Task<IActionResult> IncreaseShoppingCartItemAsync(Guid cartId,
             [FromRoute] Guid itemId,
@@ -104,6 +106,8 @@ namespace ShoppingCart.Api.Controllers
         /// <returns>Cart</returns>
         /// <response code="200">Returns the updated cart</response>
         /// <response code="404">Cart or catalog item not found</response>
+        [ProducesResponseType(200, Type = typeof(CartResponseDto))]
+        [ProducesResponseType(404)]
         [HttpPost("{cartId:guid}/item/{itemId:guid}/remove/{quantity:decimal?}")]
         public async Task<IActionResult> DecreaseShoppingCartItemAsync(Guid cartId,
             [FromRoute] Guid itemId,
