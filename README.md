@@ -74,6 +74,8 @@ var response = await apiClientAsync.CartService.AddProductToCartAsync({product},
 
 Where response is a Tuple composed of status (bool) and a Cart
 
+There are a number of other methods implemented - check out the tests project in that solution.
+
 ## Async vs Sync
 Only async methods are available at this time, it would be possible to simply wrap async calls with Wait() if you want to get up and running and have a proper use case for doing so.
 
