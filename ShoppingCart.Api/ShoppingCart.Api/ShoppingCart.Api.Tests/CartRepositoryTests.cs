@@ -1,8 +1,10 @@
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShoppingCart.Api.Contexts;
+using ShoppingCart.Api.Infrastructure.Mappers;
 using ShoppingCart.Api.Models.Dto.Cart;
 using ShoppingCart.Api.Repositories.Implementation;
 using ShoppingCart.Api.Repositories.Interfaces;
@@ -14,7 +16,15 @@ namespace ShoppingCart.Api.Tests
     {
         private readonly ApiDbContext _dbContext;
         private readonly ICartRepository _cartRepository;
-        
+
+        [ClassInitialize]
+        public static void Init(TestContext testContext)
+        {
+            var mappings = new MapperConfigurationExpression();
+            mappings.AddProfile<CartMaps>();
+            mappings.AddProfile<CatalogMaps>();
+            Mapper.Initialize(mappings);
+        }
 
         public CartRepositoryTests()
         {
@@ -25,7 +35,8 @@ namespace ShoppingCart.Api.Tests
             _dbContext = new ApiDbContext(options);
             TestData.Seed(_dbContext).Wait();
 
-            //_cartRepository = new CartRepository(_dbContext);
+            var catalogRepository = new CatalogRepository(_dbContext);
+            _cartRepository = new CartRepository(_dbContext, Mapper.Instance, catalogRepository);
         }
 
         [TestMethod]

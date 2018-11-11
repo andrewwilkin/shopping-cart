@@ -8,7 +8,7 @@ namespace ShoppingCart.Api.Models.Data
 {
     public sealed class Cart : Entity
     {
-        public List<CartItem> CartItems { get; set; }
+        public List<CartItem> CartItems { get; set; } = new List<CartItem>();
 
         public Cart()
         {
