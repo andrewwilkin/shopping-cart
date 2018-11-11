@@ -38,7 +38,6 @@ namespace ShoppingCart.Api.Repositories.Implementation
 
             await _dbContext.SaveChangesAsync();
             return await EnrichCart(cart);
-            //return cart;
         }
 
         public async Task<Cart> UpdateShoppingCartAsync(Guid cartId, 
@@ -69,6 +68,94 @@ namespace ShoppingCart.Api.Repositories.Implementation
             }
         }
 
+
+        public async Task<Cart> RemoveShoppingCartItemAsync(Guid cartId, Guid itemId)
+        {
+            var cart = await FindByIdAsync(cartId);
+            if (cart == null)
+                return null;
+
+            var catalogItem = await _catalogRepository.FindByIdAsync(itemId);
+            if (catalogItem == null)
+                return null;
+
+            var itemToRemove = cart.CartItems.FirstOrDefault(x => x.CatalogItemId == itemId);
+            if (itemToRemove != null)
+            {
+                cart.CartItems.Remove(itemToRemove);
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return await EnrichCart(cart);
+        }
+
+
+        public async Task<Cart> IncreaseShoppingCartItemAsync(Guid cartId, Guid itemId, decimal quantity)
+        {
+            var cart = await FindByIdAsync(cartId);
+            if (cart == null)
+                return null;
+
+            var catalogItem = await _catalogRepository.FindByIdAsync(itemId);
+            if (catalogItem == null)
+                return null;
+
+            if (cart.CartItems.Any(x => x.CatalogItemId == itemId))
+            {
+                var item = cart.CartItems.First(x => x.CatalogItemId == itemId);
+                item.Quantity += quantity;
+            }
+            else
+            {
+                cart.CartItems.Add(new CartItem
+                {
+                    CartId = cartId,
+                    CatalogItemId = itemId,
+                    Quantity = quantity
+                });
+            }
+
+            return await EnrichCart(cart);
+        }
+
+
+        public async Task<Cart> DecreaseShoppingCartItemAsync(Guid cartId, Guid itemId, decimal quantity)
+        {
+            var cart = await FindByIdAsync(cartId);
+            if (cart == null)
+                return null;
+
+            var catalogItem = await _catalogRepository.FindByIdAsync(itemId);
+            if (catalogItem == null)
+                return null;
+
+            // Do not allow the quantity to go below zero
+            // Arguably we should delete it but then makes it more difficult to increase from client
+            if (cart.CartItems.Any(x => x.CatalogItemId == itemId))
+            {
+                var item = cart.CartItems.First(x => x.CatalogItemId == itemId);
+                item.Quantity -= (quantity > item.Quantity) ? item.Quantity : quantity;               
+            }
+            
+            // Do not throw error if the item not in the cart
+            // Could equally throw a bad request but little benefit
+
+            return await EnrichCart(cart);
+        }
+
+
+        public override async Task<Cart> FindByIdAsync(Guid id)
+        {
+            var cart = await _dbContext
+                .Carts
+                .Include(e => e.CartItems)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return await EnrichCart(cart);
+            //return cart;
+        }
+
+
         // Look to find a better way - perhaps wrap the cart model with the extended data?
         private async Task<Cart> EnrichCart(Cart cart)
         {
@@ -86,15 +173,6 @@ namespace ShoppingCart.Api.Repositories.Implementation
         }
 
 
-        public override async Task<Cart> FindByIdAsync(Guid id)
-        {
-            var cart = await _dbContext
-                .Carts
-                .Include(e => e.CartItems)
-                .FirstOrDefaultAsync(x => x.Id == id);
 
-            return await EnrichCart(cart);
-            //return cart;
-        }
     }
 }

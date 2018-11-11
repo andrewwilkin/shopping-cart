@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Api.Models.Data;
 using ShoppingCart.Api.Models.Dto;
 using ShoppingCart.Api.Models.Dto.Cart;
+using ShoppingCart.Api.Models.Dto.Common;
 using ShoppingCart.Api.Repositories.Interfaces;
 
 namespace ShoppingCart.Api.Controllers
 {
 
-    [Route("api/[controller]")]
+    [Route("api/cart")]
     [Produces("application/json")]
     [ApiController]
     public class CartController : ControllerBase
@@ -69,7 +70,7 @@ namespace ShoppingCart.Api.Controllers
         /// 
         /// Sample request with cart items:
         ///
-        ///     Post /api/cart/{id}
+        ///     Post /api/cart/{cartId}
         ///     {
         ///         "cartContents": [
         ///             {
@@ -85,12 +86,12 @@ namespace ShoppingCart.Api.Controllers
         /// <response code="404">Cart not found</response>
         [ProducesResponseType(200, Type = typeof(CartResponseDto))]
         [ProducesResponseType(404)]
-        [HttpPost("{id:guid}")]
+        [HttpPost("{cartId:guid}")]
         public async Task<IActionResult> UpdateCartAsync(
-            Guid id,
+            Guid cartId,
             [FromBody] CartContentsRequestDto cartContents)
         {
-            var cart = await _cartRepository.UpdateShoppingCartAsync(id, cartContents);
+            var cart = await _cartRepository.UpdateShoppingCartAsync(cartId, cartContents);
             if (cart == null)
                 return NotFound();
 
@@ -106,7 +107,7 @@ namespace ShoppingCart.Api.Controllers
         /// 
         /// Sample request with cart items:
         ///
-        ///     GET /api/cart/{id}
+        ///     GET /api/cart/{cartId}
         /// 
         /// </remarks>
         /// <returns>Cart</returns>
@@ -114,10 +115,10 @@ namespace ShoppingCart.Api.Controllers
         /// <response code="404">Cart not found</response>
         [ProducesResponseType(200, Type = typeof(CartResponseDto))]
         [ProducesResponseType(404)]
-        [HttpGet("{id:guid}", Name = "GetCartByIdAsync")]
-        public async Task<IActionResult> GetCartByIdAsync(Guid id)
+        [HttpGet("{cartId:guid}", Name = "GetCartByIdAsync")]
+        public async Task<IActionResult> GetCartByIdAsync(Guid cartId)
         {
-            var cart = await _cartRepository.FindByIdAsync(id);
+            var cart = await _cartRepository.FindByIdAsync(cartId);
             if (cart == null)
                 return NotFound();
 
@@ -131,9 +132,9 @@ namespace ShoppingCart.Api.Controllers
         /// </summary>
         /// <remarks>
         /// 
-        /// Sample request with cart items:
+        /// Sample request:
         ///
-        ///     DELETE /api/cart/{id}
+        ///     DELETE /api/cart/{cartId}
         /// 
         /// </remarks>
         /// <returns>Cart</returns>
@@ -141,13 +142,14 @@ namespace ShoppingCart.Api.Controllers
         /// <response code="404">Cart not found</response>
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> RemoveCartByIdAsync(Guid id)
+        [HttpDelete("{cartId:guid}")]
+        public async Task<IActionResult> RemoveCartByIdAsync(Guid cartId)
         {
-            var cart = await _cartRepository.FindByIdAsync(id);
+            var cart = await _cartRepository.FindByIdAsync(cartId);
             if (cart == null)
                 return NotFound();
-            await _cartRepository.RemoveShoppingCartAsync(id);
+
+            await _cartRepository.RemoveShoppingCartAsync(cartId);
             return NoContent();
         }
 

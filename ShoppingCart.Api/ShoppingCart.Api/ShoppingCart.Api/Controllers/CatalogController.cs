@@ -12,7 +12,7 @@ using ShoppingCart.Api.Repositories.Interfaces;
 
 namespace ShoppingCart.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/catalog")]
     [Produces("application/json")]
     [ApiController]
     public class CatalogController : ControllerBase
