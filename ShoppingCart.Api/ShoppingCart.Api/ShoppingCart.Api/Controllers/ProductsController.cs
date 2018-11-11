@@ -68,8 +68,8 @@ namespace ShoppingCart.Api.Controllers
 
             if (item == null)
                 return NotFound();
-            
-            var dto = new ProductResponseDto(item.Id, item.Name);
+
+            var dto = _mapper.Map<List<ProductResponseDto>>(item);
             return Ok(dto);
         }
     }
